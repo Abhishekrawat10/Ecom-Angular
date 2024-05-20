@@ -1,0 +1,39 @@
+<div *ngIf="ck else loader"
+  class="flex flex-wrap justify-around w-screen h-screen overscroll-x-none gap-2 p-2"
+>
+  <div
+    *ngFor="let prod of products"
+    class="flex flex-col gap-2 w-52 h-60 rouded-md shadow-lg"
+  >
+    <div (click)="showProduct(prod)" class="cursor-pointer">
+      <img
+        [src]="prod.image"
+        alt="Produc-img"
+        class="object-contain w-52 h-28"
+        
+      />
+    </div>
+    <div class="flex justify-around">{{ prod.title | slice : 0 : 10 }}</div>
+    <div class="flex justify-around">र {{ prod.price }}</div>
+    <div class="flex gap-2">
+      <button
+        class="text-xl rounded-md w-40 shadow-lg bg-orange-400"
+        (click)="showProduct(prod)"
+      >
+        Buy
+      </button>
+      <button
+        class="text-xl rounded-md w-48 shadow-lg bg-orange-400"
+        (click)="addToCart(prod)"
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loader>
+  <div class="flex justify-center items-center">
+    Loading.....
+  </div>
+</ng-template>

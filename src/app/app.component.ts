@@ -1,13 +1,29 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
+import { ProductComponent } from './product/product.component';
+import { CartComponent } from './cart/cart.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    HomeComponent,
+    ProductComponent,
+    CartComponent,
+    PagenotfoundComponent,
+    CheckoutComponent
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'ecom-website';
+
+  constructor() {}
 }

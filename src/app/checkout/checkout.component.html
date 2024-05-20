@@ -1,18 +1,62 @@
-<div>
-  <div>
-    <form class="border-2 border-red-600 flex flex-col align-middle">
+<div class="flex gap-2">
+  <div class="flex">
+    <form
+      class="border-2 border-red-600 flex flex-col gap-4 align-middle"
+      [formGroup]="profileForm"
+      (ngSubmit)="buyProd()"
+    >
       <div>
         <label class="text-xl" for="firstName">FirstName: </label>
-        <input class="border-b-2 outline-none" type="text" name="firstName" id="firstName" formControlName="firstName"/>
+        <input
+          class="border-b-2 outline-none"
+          type="text"
+          name="firstName"
+          id="firstName"
+          formControlName="firstName"
+        />
+      </div>
+      <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+        <p class="text-red-500 text-lg">Fill up FirstName</p>
       </div>
       <div>
-        <label class="text-xl" for="lastName">lastName: </label>
-        <input class="border-b-2 outline-none" type="text" name="lastName" id="lastName" formControlName="lastName"/>
+        <label class="text-xl" for="lastName">LastName: </label>
+        <input
+          class="border-b-2 outline-none"
+          type="text"
+          name="lastName"
+          id="lastName"
+          formControlName="lastName"
+        />
+      </div>
+      <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+        <p class="text-red-500 text-lg">Fill up LastName</p>
       </div>
       <div>
         <label class="text-xl" for="address">Address: </label>
-        <input class="border-b-2 outline-none" type="text" name="lastName" id="address" formControlName="address"/>
+        <input
+          class="border-b-2 outline-none"
+          type="text"
+          name="lastName"
+          id="address"
+          formControlName="address"
+        />
+      </div>
+      <div *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
+        <p class="text-red-500 text-lg">Fill up Address</p>
+      </div>
+      <div class="flex justify-center rounded-md">
+        <button  [disabled]="formValid" class="text-2xl bg-orange-400 rounded-md w-36">Submit</button>
       </div>
     </form>
+  </div>
+  <div class="flex flex-1 gap-4 p-4 border-red-400 border-2">
+    <div>
+      <img [src]="prod.image" class="size-40" />
+    </div>
+    <div>
+      <p>{{ prod.title }}</p>
+      <p>{{ prod.description }}/p></p>
+      <p>Price => {{ prod.price }}</p>
+    </div>
   </div>
 </div>

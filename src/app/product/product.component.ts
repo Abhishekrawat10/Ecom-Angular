@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ProductsDataService } from '../services/products-data.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './product.component.css',
 })
 export class ProductComponent implements OnInit {
-  constructor(private _Activatedroute: ActivatedRoute) {}
+  constructor(private _Activatedroute: ActivatedRoute, private router: Router) {}
   productService: ProductsDataService = inject(ProductsDataService);
 
   product: any;
@@ -19,10 +19,14 @@ export class ProductComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.product = await this.productService.getProduct(this.id);
-    console.log(this.product);
+  }
+
+  navigateToRoute(route:string){
+    this.router.navigate([route]);
   }
 
   buyProduct(prod:any):void{
+    this.navigateToRoute(`checkout/${prod.id}`)
     console.log(prod);
   }
 }

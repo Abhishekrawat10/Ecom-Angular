@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DoCheck, OnInit, inject } from '@angular/core';
 import { ProductsDataService } from '../services/products-data.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,19 +10,22 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,DoCheck {
   products: any = [];
   ck: boolean = false;
   productService: ProductsDataService = inject(ProductsDataService);
+  searchVal:string | "" = "";
   constructor(private router: Router) {}
 
   buyThis(id: object): void {
     console.log(id);
+    console.log("inputfiled Val;ue",this.productService.searchField)
   }
 
   navigateToRoute(route: string) {
     this.router.navigate([route]);
   }
+
   cart: Array<object> = [];
   cartMap = new Map();
   showProduct(prod: any): void {
@@ -45,8 +48,19 @@ export class HomeComponent implements OnInit {
     console.log("loclasStorage",this.cartMap);
   }
 
+  async ngDoCheck(): Promise<any> {
+    if(this.searchVal !== this.productService.searchField){
+      this.searchVal = this.productService.searchField;
+      this.products = await this.productService.getProducts(this.searchVal);
+      // console.log("insidenng chek",this.productService.searchField)
+      // console.log(this.products)
+    }
+  }
   async ngOnInit(): Promise<any> {
-    this.products = await this.productService.getProducts();
+    await this.productService.fetchProducts();
+    this.searchVal = this.productService.searchField;
+    this.products = await this.productService.getProducts("");
+    console.log(this.products)
     let cartItem: string | null = localStorage.getItem('cart');
     if (typeof cartItem === 'string') {
       this.cartMap = new Map(JSON.parse(cartItem));

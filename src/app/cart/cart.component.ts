@@ -36,7 +36,7 @@ export class CartComponent implements OnInit, DoCheck {
       this.cartMap = new Map(JSON.parse(cartStuff));
       this.localStorageLength = this.cartMap.size;
       console.log('CartMap', this.cartMap);
-      this.products = await this.productService.getProducts();
+      this.products = await this.productService.getProducts("");
       for (let [key, value] of this.cartMap) {
         let product = this.products.find((p: any) => p.id === +key);
         this.selectedProducts.set(product, value);
@@ -54,24 +54,6 @@ export class CartComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     console.log('onitnicalled');
     this.showList();
-    // let cartStuff: string | null = localStorage.getItem('cart');
-    // if (typeof cartStuff === 'string') {
-    //   this.cartMap = new Map(JSON.parse(cartStuff));
-    //   this.localStorageLength = this.cartMap.size;
-    //   console.log('CartMap', this.cartMap);
-    //   this.products = await this.productService.getProducts();
-    //   for (let [key, value] of this.cartMap) {
-    //     let product = this.products.find((p: any) => p.id === +key);
-    //     this.selectedProducts.set(product, value);
-    //     this.totalPrice += product.price * value;
-    //   }
-    //   console.log('Selected Product', this.selectedProducts);
-    //   this.selectedProductsArray = Array.from(this.selectedProducts.entries());
-    //   console.log('Selected Products Array', this.selectedProductsArray);
-    //   this.check = true;
-    // } else {
-    //   this.check = false;
-    // }
   }
 
   ngDoCheck(): void {
@@ -85,6 +67,9 @@ export class CartComponent implements OnInit, DoCheck {
       this.localStorageLength = currentLen;
       console.log('CurrneLent', this.localStorageLength);
       this.showList();
+    }
+    if(this.localStorageLength===0){
+      this.check=false;
     }
   }
 

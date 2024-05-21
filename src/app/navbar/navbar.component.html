@@ -5,6 +5,9 @@
     <div>
         <a routerLink="/cart" >Cart</a>
     </div>
+    <div>
+        <input placeholder="Search for Prodcut" [(ngModel)] ="searchBarValue" (ngModelChange)="setSearchValue()" />
+    </div>
 </div>
 
 <router-outlet></router-outlet>

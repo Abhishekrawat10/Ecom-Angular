@@ -29,14 +29,14 @@ export class CartComponent implements OnInit, DoCheck {
 
   async showList(): Promise<any> {
     this.cartMap = new Map();
-    this.selectedProducts  = new Map();
+    this.selectedProducts = new Map();
     this.selectedProductsArray = [];
     let cartStuff: string | null = localStorage.getItem('cart');
     if (typeof cartStuff === 'string') {
       this.cartMap = new Map(JSON.parse(cartStuff));
       this.localStorageLength = this.cartMap.size;
       console.log('CartMap', this.cartMap);
-      this.products = await this.productService.getProducts("");
+      this.products = await this.productService.getProducts('');
       for (let [key, value] of this.cartMap) {
         let product = this.products.find((p: any) => p.id === +key);
         this.selectedProducts.set(product, value);
@@ -68,9 +68,6 @@ export class CartComponent implements OnInit, DoCheck {
       console.log('CurrneLent', this.localStorageLength);
       this.showList();
     }
-    if(this.localStorageLength===0){
-      this.check=false;
-    }
   }
 
   removeProd(prod: any) {
@@ -90,10 +87,8 @@ export class CartComponent implements OnInit, DoCheck {
     }
 
     if (productCount === 0) {
-      console.log('here');
-      console.log(this.cartMap.delete(productId));
+      this.cartMap.delete(productId);
     }
-    console.log('CartMap', this.cartMap);
 
     localStorage.setItem(
       'cart',

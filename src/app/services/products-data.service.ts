@@ -1,32 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
+import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsDataService{
-  constructor() {}
+export class ProductsDataService {
+  constructor(private http: HttpClient) {}
 
   products: any = [];
-  searchField: string | "" = "";
+  searchField: string | '' = '';
+
+  url = 'https://fakestoreapi.com/products';
 
   async fetchProducts(): Promise<any> {
-    let data = await fetch('https://fakestoreapi.com/products');
-    data = await data.json();
-    this.products = data;
+    this.products = await firstValueFrom(this.http.get(this.url));
   }
-
-  // setSerchFieldValue(value: string): void {
-  //   this.searchField = value;
-  // }
-
-  getProducts(serarchVal:string| ""): any {
-    // console.log('in product data service', serarchVal);
-    let filterProduct: []= this.products.filter(
-      (e: any) => {
-        return e.title.toLowerCase().includes(serarchVal.toLowerCase());
-      }
-    );
+  getProducts(serarchVal: string | ''): any {
+    let filterProduct: [] = this.products.filter((e: any) => {
+      return e.title.toLowerCase().includes(serarchVal.toLowerCase());
+    });
     return filterProduct;
   }
 
